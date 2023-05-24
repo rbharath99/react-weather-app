@@ -6,7 +6,11 @@ const store = configureStore({
     reducer: {
         weather: weatherReducer,
         favorite: favoriteReducer,
-    }
+    },
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
 });
 
 export default store;
