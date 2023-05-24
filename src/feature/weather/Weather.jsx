@@ -10,14 +10,18 @@ function Weather() {
   const weatherData = useSelector((state) => state.weather.data);
   const isLoading = useSelector((state) => state.weather.isLoading);
   const error = useSelector((state) => state.weather.error);
-  const isFavorite = useSelector((state) => state.favorite.isFavorite);
+  const favorites = useSelector((state) => state.favorite.locations);
+
+  const isFavorite = weatherData ? favorites.includes(weatherData.name) : false;
 
   useEffect(() => {
     dispatch(fetchWeather())
   }, [dispatch])
 
   const handleClick = () => {
-    dispatch(toggleFavorite());
+    if (weatherData) {
+      dispatch(toggleFavorite({ location: weatherData.name }));
+    }
   }
 
   if (isLoading) {
