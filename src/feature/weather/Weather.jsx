@@ -2,23 +2,26 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchWeather } from './WeatherSlice';
 import { toggleFavorite } from './FavoriteSlice';
+import { fetchForecast } from '../forecast/ForecastSlice';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 import Search from './Search';
 
 function Weather() {
   const dispatch = useDispatch()
 
-  const weatherData = useSelector((state) => state.weather.data);
+  const weatherData = useSelector((state) => state.weather.weatherData);
   const isLoading = useSelector((state) => state.weather.isLoading);
   const error = useSelector((state) => state.weather.error);
   const favorites = useSelector((state) => state.favorite.data);
+  const forecastData = useSelector((state) => state.forecast.forecastData);
 
-  console.log(favorites)
+  console.log(forecastData);
 
   const isFavorite = weatherData ? favorites.includes(weatherData) : false;
 
   useEffect(() => {
     dispatch(fetchWeather("New York"))
+    dispatch(fetchForecast("New York"))
   }, [dispatch])
 
   const handleClick = () => {

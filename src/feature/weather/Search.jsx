@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchWeather } from './WeatherSlice';
+import { fetchForecast } from '../forecast/ForecastSlice';
 
 function Search() {
     const [city, setCity] = useState('');
@@ -9,6 +10,7 @@ function Search() {
     const handleSubmit = (event) => {
         event.preventDefault();
         dispatch(fetchWeather(city));
+        dispatch(fetchForecast(city));
         setCity('');
     };
     return (
