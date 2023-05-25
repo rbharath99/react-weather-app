@@ -5,6 +5,7 @@ import { toggleFavorite } from './FavoriteSlice';
 import { fetchForecast } from '../forecast/ForecastSlice';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 import Search from './Search';
+import Forecast from '../forecast/Forecast';
 
 function Weather() {
   const dispatch = useDispatch()
@@ -13,9 +14,6 @@ function Weather() {
   const isLoading = useSelector((state) => state.weather.isLoading);
   const error = useSelector((state) => state.weather.error);
   const favorites = useSelector((state) => state.favorite.data);
-  const forecastData = useSelector((state) => state.forecast.forecastData);
-
-  console.log(forecastData);
 
   const isFavorite = weatherData ? favorites.includes(weatherData) : false;
 
@@ -68,6 +66,7 @@ function Weather() {
         <button onClick={handleClick}>
           {isFavorite ? <AiFillStar size={24} /> : <AiOutlineStar size={24} />}
         </button>
+        <Forecast></Forecast>
       </>
 
     );
