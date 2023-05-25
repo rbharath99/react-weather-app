@@ -2,10 +2,16 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { BASE_URL } from "./WeatherConstants";
 
-export const fetchWeather = createAsyncThunk('weather/fetchWeather', async () => {
-    const response = await axios.get(BASE_URL)
-    return response.data
-})
+export const fetchWeather = createAsyncThunk('weather/fetchWeather', async (city) => {
+    const response = await axios.get(BASE_URL, {
+        params: {
+            q: city,
+            units: "Metric",
+            lang: "en"
+        }
+    });
+    return response.data;
+});
 
 export const weatherSlice = createSlice({
     name: 'weather',
@@ -22,7 +28,7 @@ export const weatherSlice = createSlice({
         })
         builder.addCase(fetchWeather.fulfilled, (state, action) => {
             state.loading = false
-            state.data = action.payload          
+            state.data = action.payload
         })
         builder.addCase(fetchWeather.rejected, (state, action) => {
             state.loading = false

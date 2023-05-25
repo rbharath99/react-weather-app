@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchWeather } from './WeatherSlice';
 import { toggleFavorite } from './FavoriteSlice';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
+import Search from './Search';
 
 function Weather() {
   const dispatch = useDispatch()
@@ -17,7 +18,7 @@ function Weather() {
   const isFavorite = weatherData ? favorites.includes(weatherData) : false;
 
   useEffect(() => {
-    dispatch(fetchWeather())
+    dispatch(fetchWeather("New York"))
   }, [dispatch])
 
   const handleClick = () => {
@@ -27,16 +28,22 @@ function Weather() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <>
+        <Search />
+        <div>Error: {error}</div>
+      </>
+    );
   }
 
   if (weatherData) {
     return (
       <>
+        <Search />
         <div>{JSON.stringify(weatherData.name)}</div>
         <ul className="list">
           <li>
