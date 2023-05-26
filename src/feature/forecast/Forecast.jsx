@@ -8,18 +8,26 @@ function Forecast() {
     console.log(forecastData)
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return (
+            <div className="text-center">
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        );
     }
 
     if (forecastData) {
         return (
-            <>
-                <div className='forecast-card-layout'>
-                    {forecastData.list.map((forecast) => {
-                        return <ForecastCard forecast={forecast} key={forecast.dt}></ForecastCard>
-                    })}
+            <div className="container">
+                <div className="d-flex flex-wrap justify-content-center">
+                    {forecastData.list.map((forecast) => (
+                        <div className="p-2" key={forecast.dt}>
+                            <ForecastCard forecast={forecast} />
+                        </div>
+                    ))}
                 </div>
-            </>
+            </div>
         );
     }
 

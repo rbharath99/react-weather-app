@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { Form, Row, Col, Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux'
 import { fetchWeather } from './WeatherSlice';
 import { fetchForecast } from '../forecast/ForecastSlice';
 
@@ -14,17 +15,21 @@ function Search() {
         setCity('');
     };
     return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    value={city}
-                    onChange={(event) => setCity(event.target.value)}
-                    placeholder="Enter city name"
-                />
-                <button type="submit" disabled={!city}>Search</button>
-            </form>
-        </>
+        <Form onSubmit={handleSubmit}>
+            <Row className="align-items-center">
+                <Col xs={9} md={8} lg={6}>
+                    <Form.Control
+                        type="text"
+                        value={city}
+                        onChange={(event) => setCity(event.target.value)}
+                        placeholder="Enter city name"
+                    />
+                </Col>
+                <Col xs={3} md={4} lg={6}>
+                    <Button type="submit" disabled={!city} variant="primary">Search</Button>
+                </Col>
+            </Row>
+        </Form>
     );
 }
 

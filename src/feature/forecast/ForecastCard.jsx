@@ -1,14 +1,17 @@
 import React from 'react'
 
-function ForecastCard({ forecast }) {
+const ForecastCard = ({ forecast }) => {
     return (
-        <>
-            <p>{forecast.main.temp}</p>
-            <p>{forecast.main.feels_like}</p>
-            <p>{forecast.weather[0].main}</p>
-            <p>{forecast.weather[0].description}</p>
-        </>
+      <div className="card">
+        <div className="card-body">
+          <h5 className="card-title">Temperature: {forecast.main.temp}</h5>
+          <h6 className="card-subtitle mb-2 text-muted">Feels Like: {forecast.main.feels_like}</h6>
+          <p className="card-text">Weather: {forecast.weather[0].main}</p>
+          <p className="card-text">Description: {forecast.weather[0].description}</p>
+        </div>
+      </div>
     );
-}
+  };
+  
 
 export default ForecastCard;

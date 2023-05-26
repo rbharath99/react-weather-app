@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchWeather } from './WeatherSlice';
 import { toggleFavorite } from './FavoriteSlice';
 import { fetchForecast } from '../forecast/ForecastSlice';
-import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
+import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
+import { Card, ListGroup, Button } from 'react-bootstrap';
 import Search from './Search';
 import Forecast from '../forecast/Forecast';
 
@@ -29,7 +30,13 @@ function Weather() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <div className="text-center">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -46,29 +53,30 @@ function Weather() {
       <>
         <Search />
         <div>{JSON.stringify(weatherData.name)}</div>
-        <ul className="list">
-          <li>
-            <b>Feels Like</b> {JSON.stringify(weatherData.main.temp)}
-          </li>
-          <li>
-            <b>Min Temp</b> {JSON.stringify(weatherData.main.temp_min)}
-          </li>
-          <li>
-            <b>Max Temp</b> {JSON.stringify(weatherData.main.temp_max)}
-          </li>
-          <li>
-            <b>Pressure</b> {JSON.stringify(weatherData.main.pressure)}
-          </li>
-          <li>
-            <b>Humidity</b> {JSON.stringify(weatherData.main.humidity)}
-          </li>
-        </ul>
-        <button onClick={handleClick}>
+        <Card>
+          <ListGroup variant="flush">
+            <ListGroup.Item>
+              <b>Feels Like</b> {JSON.stringify(weatherData.main.temp)}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <b>Min Temp</b> {JSON.stringify(weatherData.main.temp_min)}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <b>Max Temp</b> {JSON.stringify(weatherData.main.temp_max)}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <b>Pressure</b> {JSON.stringify(weatherData.main.pressure)}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <b>Humidity</b> {JSON.stringify(weatherData.main.humidity)}
+            </ListGroup.Item>
+          </ListGroup>
+        </Card>
+        <Button variant="primary" onClick={handleClick}>
           {isFavorite ? <AiFillStar size={24} /> : <AiOutlineStar size={24} />}
-        </button>
-        <Forecast></Forecast>
+        </Button>
+        <Forecast />
       </>
-
     );
   }
 
