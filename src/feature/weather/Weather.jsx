@@ -5,6 +5,7 @@ import { toggleFavorite } from './FavoriteSlice';
 import { fetchForecast } from '../forecast/ForecastSlice';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
 import { Card, ListGroup, Button } from 'react-bootstrap';
+import Loader from '../../Loader';
 import Search from './Search';
 import Forecast from '../forecast/Forecast';
 
@@ -30,13 +31,7 @@ function Weather() {
   };
 
   if (isLoading) {
-    return (
-      <div className="text-center">
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
+    <Loader />
   }
 
   if (error) {
@@ -52,9 +47,11 @@ function Weather() {
     return (
       <>
         <Search />
-        <div>{JSON.stringify(weatherData.name)}</div>
         <Card>
           <ListGroup variant="flush">
+            <ListGroup.Item>
+              <b>{weatherData.name}</b>
+            </ListGroup.Item>
             <ListGroup.Item>
               <b>Feels Like</b> {JSON.stringify(weatherData.main.temp)}
             </ListGroup.Item>

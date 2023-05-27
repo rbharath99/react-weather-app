@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './Error';
 import Favorites from './feature/favorites/Favorites';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const router = createBrowserRouter([
   {
