@@ -6,7 +6,7 @@ const ForecastCard = ({ forecast }) => {
     <Container style={{ width: '18rem', height: '30rem' }}>
       <Row>
         <Col>
-          <Card style={{ backgroundColor: '#cccccc' }} >
+          <Card style={{ backgroundColor: '#cccccc', width: '15rem', height: '25rem' }} >
             <Card.Body>
               <Card.Img
                 variant="top"
@@ -26,6 +26,5 @@ const ForecastCard = ({ forecast }) => {
     </Container>
   );
 };
-
 
 export default ForecastCard;
