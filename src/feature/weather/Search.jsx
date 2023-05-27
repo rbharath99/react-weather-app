@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { Form, Button, InputGroup } from 'react-bootstrap';
+import { useDispatch } from 'react-redux'
 import { fetchWeather } from './WeatherSlice';
+import { fetchForecast } from '../forecast/ForecastSlice';
 
 function Search() {
     const [city, setCity] = useState('');
@@ -9,20 +11,24 @@ function Search() {
     const handleSubmit = (event) => {
         event.preventDefault();
         dispatch(fetchWeather(city));
+        dispatch(fetchForecast(city));
         setCity('');
     };
     return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <input
+        <Form onSubmit={handleSubmit}>
+            <InputGroup className="mb-3">
+                <Form.Control
+                    placeholder="Enter City Name"
+                    aria-label="Search for Weather"
                     type="text"
                     value={city}
                     onChange={(event) => setCity(event.target.value)}
-                    placeholder="Enter city name"
                 />
-                <button type="submit" disabled={!city}>Search</button>
-            </form>
-        </>
+                <Button type="submit" disabled={!city} variant="primary" >
+                    Search
+                </Button>
+            </InputGroup>
+        </Form>
     );
 }
 
