@@ -3,7 +3,7 @@ import { Col, Card, Container, Row } from 'react-bootstrap';
 
 const ForecastCard = ({ forecast }) => {
   return (
-    <Container style={{ width: '18rem', height: '30rem' }}>
+    <Container>
       <Row>
         <Col>
           <Card style={{ backgroundColor: '#cccccc', width: '15rem', height: '25rem' }} >
