@@ -6,7 +6,7 @@ const ForecastCard = ({ forecast }) => {
     <Container style={{ width: '18rem' , height: '30rem'}}>
       <Row>
         <Col>
-          <Card>
+          <Card style={{ backgroundColor: '#cccccc'}} >
             <Card.Body>
               <Card.Img
                 variant="top"
