@@ -3,14 +3,15 @@ import { Col, Card, Container, Row } from 'react-bootstrap';
 
 const ForecastCard = ({ forecast }) => {
   return (
-    <Container style={{ width: '18rem' , height: '30rem'}}>
+    <Container style={{ width: '18rem', height: '30rem' }}>
       <Row>
         <Col>
-          <Card style={{ backgroundColor: '#cccccc'}} >
+          <Card style={{ backgroundColor: '#cccccc' }} >
             <Card.Body>
               <Card.Img
                 variant="top"
                 src={`http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`}
+                style={{ width: '100px', height: '100px' }}
               />
               <Card.Title>Temperature: {forecast.main.temp}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
