@@ -68,15 +68,16 @@ function Weather() {
               <b>Humidity</b> {JSON.stringify(weatherData.main.humidity)}
             </ListGroup.Item>
           </ListGroup>
+          <Card.Footer className="d-flex justify-content-center">
+            <Button variant="primary" onClick={handleClick}>
+              {isFavorite ? <AiFillStar size={24} /> : <AiOutlineStar size={24} />}
+            </Button>
+          </Card.Footer>
         </Card>
-        <Button variant="primary" onClick={handleClick}>
-          {isFavorite ? <AiFillStar size={24} /> : <AiOutlineStar size={24} />}
-        </Button>
         <Forecast />
       </>
     );
   }
-
 }
 
 export default Weather
