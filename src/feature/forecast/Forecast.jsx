@@ -7,7 +7,6 @@ import Loader from '../../Loader';
 function Forecast() {
     const forecastData = useSelector((state) => state.forecast.forecastData);
     const isLoading = useSelector((state) => state.forecast.isLoading);
-    console.log(forecastData)
 
     if (isLoading) {
         <Loader />

@@ -5,6 +5,7 @@ import { toggleFavorite } from './FavoriteSlice';
 import { fetchForecast } from '../forecast/ForecastSlice';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
 import { Card, ListGroup, Button, Toast } from 'react-bootstrap';
+import Graph from '../graph/Graph';
 import Loader from '../../Loader';
 import Search from './Search';
 import Forecast from '../forecast/Forecast';
@@ -88,6 +89,7 @@ function Weather() {
         }}>
           <Toast.Body>{isFavorite ? 'Added to favorites!' : 'Removed from favorites!'}</Toast.Body>
         </Toast>
+        <Graph />
         <Forecast />
       </>
     );
