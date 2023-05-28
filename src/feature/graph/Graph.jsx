@@ -28,8 +28,13 @@ function Graph() {
     );
 
     if (forecastData) {
-        const temperatures = forecastData.list.map(item => item.main.temp);
-        const dates = forecastData.list.map(item => item.dt_txt);
+        const temperatures = forecastData.list
+            .filter((_, index) => index % 2 !== 0)
+            .map(item => item.main.temp);
+
+        const dates = forecastData.list
+            .filter((_, index) => index % 2 !== 0)
+            .map(item => item.dt_txt);
 
         const options = {
             responsive: true,
