@@ -11,7 +11,7 @@ function FavoriteWeather() {
     <Container>
       <Row>
         {favorites.map((favorite) => (
-          <Col key={favorite.id} >
+          <Col key={favorite.id} className="p-2">
             <Card style={{ backgroundColor: '#cccccc', width: '15rem', height: '25rem' }}>
               <Card.Body>
                 <Card.Img
