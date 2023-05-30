@@ -1,14 +1,11 @@
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 
-
 function FavoriteWeather() {
   const favorites = useSelector((state) => state.favorite.data);
 
-  console.log(favorites)
-
   return (
-    <Container>
+    <Container style={{ paddingTop: '20px' }}>
       <Row>
         {favorites.map((favorite) => (
           <Col key={favorite.id} className="p-2">
