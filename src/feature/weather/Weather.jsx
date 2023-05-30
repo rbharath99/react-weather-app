@@ -4,7 +4,7 @@ import { fetchWeather } from './WeatherSlice';
 import { toggleFavorite } from './FavoriteSlice';
 import { fetchForecast } from '../forecast/ForecastSlice';
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
-import { Card, ListGroup, Button, Toast } from 'react-bootstrap';
+import { Card, ListGroup, Button, Toast, Container } from 'react-bootstrap';
 import Graph from '../graph/Graph';
 import Loader from '../../Loader';
 import Search from './Search';
@@ -52,7 +52,7 @@ function Weather() {
 
   if (weatherData) {
     return (
-      <>
+      <Container style={{ paddingTop: '20px' }}>
         <Search />
         <Card>
           <ListGroup variant="flush">
@@ -91,7 +91,7 @@ function Weather() {
         </Toast>
         <Graph />
         <Forecast />
-      </>
+      </Container>
     );
   }
 }

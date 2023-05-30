@@ -4,7 +4,7 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 const NavigationBar = () => {
     return (
-        <Navbar bg="light" expand="md">
+        <Navbar bg="light" expand="md" fixed="top">
             <Navbar.Brand>Weather App</Navbar.Brand>
             <Navbar.Toggle aria-controls="navbar-nav" />
             <Navbar.Collapse id="navbar-nav">
