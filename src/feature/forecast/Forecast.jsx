@@ -17,8 +17,8 @@ function Forecast () {
             <Container>
                 <div className="d-flex flex-wrap justify-content-center">
                     {forecastData.list.map((forecast) => (
-                        <Row>
-                            <div className="p-2" key={forecast.dt}>
+                        <Row key={forecast.dt}>
+                            <div className="p-2" >
                                 <ForecastCard forecast={forecast} />
                             </div>
                         </Row>

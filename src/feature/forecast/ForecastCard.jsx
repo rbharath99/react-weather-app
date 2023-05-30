@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Card, Container, Row } from 'react-bootstrap'
-import { propTypes } from 'react-bootstrap/esm/Image'
+import PropTypes from 'prop-types'
 
 const ForecastCard = ({ forecast }) => {
   return (
@@ -29,17 +29,17 @@ const ForecastCard = ({ forecast }) => {
 }
 
 ForecastCard.propTypes = {
-  forecast: propTypes.shape({
-    weather: propTypes.arrayOf(
-      propTypes.shape({
-        icon: propTypes.string,
-        main: propTypes.string,
-        description: propTypes.string
+  forecast: PropTypes.shape({
+    weather: PropTypes.arrayOf(
+      PropTypes.shape({
+        icon: PropTypes.string,
+        main: PropTypes.string,
+        description: PropTypes.string
       })
     ),
-    main: propTypes.shape({
-      temp: propTypes.number,
-      feels_like: propTypes.number
+    main: PropTypes.shape({
+      temp: PropTypes.number,
+      feels_like: PropTypes.number
     })
   }).isRequired
 }
