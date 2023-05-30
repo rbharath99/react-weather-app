@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Card, Container, Row } from 'react-bootstrap';
+import { Col, Card, Container, Row } from 'react-bootstrap'
 
 const ForecastCard = ({ forecast }) => {
   return (
@@ -24,7 +24,7 @@ const ForecastCard = ({ forecast }) => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default ForecastCard;
+export default ForecastCard

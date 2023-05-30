@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { useSelector } from 'react-redux'
+import { Container, Row, Col, Card } from 'react-bootstrap'
 
-function FavoriteWeather() {
-  const favorites = useSelector((state) => state.favorite.data);
+function FavoriteWeather () {
+  const favorites = useSelector((state) => state.favorite.data)
 
   return (
     <Container style={{ paddingTop: '20px' }}>
@@ -28,7 +28,7 @@ function FavoriteWeather() {
         ))}
       </Row>
     </Container>
-  );
+  )
 }
 
 export default FavoriteWeather
