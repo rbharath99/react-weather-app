@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchWeather, fetchWeatherByCoordinates } from './WeatherSlice'
 import { toggleFavorite } from './FavoriteSlice'
 import { fetchForecast } from '../forecast/ForecastSlice'
+import { getCurrentLocation } from '../location/LocationSlice'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
 import { Card, ListGroup, Button, Toast, Container } from 'react-bootstrap'
 import Graph from '../graph/Graph'
@@ -14,55 +15,20 @@ function Weather () {
   const dispatch = useDispatch()
   const { weatherData, isLoading, error } = useSelector((state) => state.weather)
   const favorites = useSelector((state) => state.favorite.data)
-
-  const storedLatitude = localStorage.getItem('latitude')
-  const storedLongitude = localStorage.getItem('longitude')
-
-  const [latitude, setLatitude] = useState(storedLatitude ? parseFloat(storedLatitude) : null)
-  const [longitude, setLongitude] = useState(storedLongitude ? parseFloat(storedLongitude) : null)
-
-  const geolocationAPI = navigator.geolocation
-
-  const getUserCoordinates = () => {
-    if (!geolocationAPI) {
-      setLatitude(null)
-      setLongitude(null)
-      localStorage.removeItem('latitude')
-      localStorage.removeItem('longitude')
-    } else {
-      geolocationAPI.getCurrentPosition(
-        (position) => {
-          const { coords } = position
-          setLatitude(coords.latitude)
-          setLongitude(coords.longitude)
-          localStorage.setItem('latitude', coords.latitude.toString())
-          localStorage.setItem('longitude', coords.longitude.toString())
-        },
-        (error) => {
-          console.log(error)
-          setLatitude(null)
-          setLongitude(null)
-          localStorage.removeItem('latitude')
-          localStorage.removeItem('longitude')
-        }
-      )
-    }
-  }
+  const { longitude, latitude } = useSelector((state) => state.location)
 
   const isFavorite = weatherData ? favorites.includes(weatherData) : false
 
   const [showToast, setShowToast] = useState(false)
 
   useEffect(() => {
-    getUserCoordinates()
-  }, [])
+    dispatch(getCurrentLocation())
+  }, [dispatch])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (latitude && longitude) {
-          localStorage.setItem('latitude', latitude.toString())
-          localStorage.setItem('longitude', longitude.toString())
           dispatch(fetchWeatherByCoordinates({ latitude, longitude }))
         } else {
           dispatch(fetchWeather('New York'))
