@@ -1,7 +1,8 @@
+import React from 'react'
 import './App.css'
 import Weather from './feature/weather/Weather'
 
-function App() {
+function App () {
   return (
     <Weather />
   )

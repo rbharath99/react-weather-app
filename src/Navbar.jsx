@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Navbar, Nav, Container } from 'react-bootstrap'
 
 const NavigationBar = () => {
-    return (
+  return (
         <Navbar bg="light" expand="md" fixed="top">
             <Container>
                 <Navbar.Brand>Weather App</Navbar.Brand>
@@ -16,7 +16,7 @@ const NavigationBar = () => {
                 </Navbar.Collapse>
             </Container>
         </Navbar>
-    );
-};
+  )
+}
 
 export default NavigationBar

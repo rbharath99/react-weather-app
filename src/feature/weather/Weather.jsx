@@ -1,41 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchWeather } from './WeatherSlice';
-import { toggleFavorite } from './FavoriteSlice';
-import { fetchForecast } from '../forecast/ForecastSlice';
+import { fetchWeather } from './WeatherSlice'
+import { toggleFavorite } from './FavoriteSlice'
+import { fetchForecast } from '../forecast/ForecastSlice'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
-import { Card, ListGroup, Button, Toast, Container } from 'react-bootstrap';
-import Graph from '../graph/Graph';
-import Loader from '../../Loader';
-import Search from './Search';
-import Forecast from '../forecast/Forecast';
+import { Card, ListGroup, Button, Toast, Container } from 'react-bootstrap'
+import Graph from '../graph/Graph'
+import Loader from '../../Loader'
+import Search from './Search'
+import Forecast from '../forecast/Forecast'
 
-function Weather() {
+function Weather () {
   const dispatch = useDispatch()
 
-  const weatherData = useSelector((state) => state.weather.weatherData);
-  const isLoading = useSelector((state) => state.weather.isLoading);
-  const error = useSelector((state) => state.weather.error);
-  const favorites = useSelector((state) => state.favorite.data);
+  const weatherData = useSelector((state) => state.weather.weatherData)
+  const isLoading = useSelector((state) => state.weather.isLoading)
+  const error = useSelector((state) => state.weather.error)
+  const favorites = useSelector((state) => state.favorite.data)
 
-  const isFavorite = weatherData ? favorites.includes(weatherData) : false;
+  const isFavorite = weatherData ? favorites.includes(weatherData) : false
 
-  const [showToast, setShowToast] = useState(false);
+  const [showToast, setShowToast] = useState(false)
 
   useEffect(() => {
-    dispatch(fetchWeather("New York"))
-    dispatch(fetchForecast("New York"))
+    dispatch(fetchWeather('New York'))
+    dispatch(fetchForecast('New York'))
   }, [dispatch])
 
   const handleClick = () => {
     if (weatherData) {
-      dispatch(toggleFavorite({ data: weatherData }));
+      dispatch(toggleFavorite({ data: weatherData }))
     }
-    setShowToast(true);
+    setShowToast(true)
     setTimeout(() => {
-      setShowToast(false);
-    }, 3000);
-  };
+      setShowToast(false)
+    }, 3000)
+  }
 
   if (isLoading) {
     <Loader />
@@ -47,7 +47,7 @@ function Weather() {
         <Search />
         <div>Error: {error}</div>
       </>
-    );
+    )
   }
 
   if (weatherData) {
@@ -85,14 +85,14 @@ function Weather() {
           position: 'fixed',
           bottom: '1rem',
           right: '1rem',
-          minWidth: '200px',
+          minWidth: '200px'
         }}>
           <Toast.Body>{isFavorite ? 'Added to favorites!' : 'Removed from favorites!'}</Toast.Body>
         </Toast>
         <Graph />
         <Forecast />
       </Container>
-    );
+    )
   }
 }
 
