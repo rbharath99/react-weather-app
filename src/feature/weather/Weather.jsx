@@ -67,9 +67,7 @@ function Weather () {
           if (!weatherData?.name) {
             dispatch(fetchForecast('New York'))
           }
-          console.log('Weather data fetched for coordinates:', latitude, longitude)
         } else {
-          console.log('Coordinates not available, fallback to default')
           dispatch(fetchWeather('New York'))
           dispatch(fetchForecast('New York'))
         }
