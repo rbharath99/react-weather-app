@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchWeather } from './WeatherSlice'
+import { fetchWeather, fetchWeatherByCoordinates } from './WeatherSlice'
 import { toggleFavorite } from './FavoriteSlice'
 import { fetchForecast } from '../forecast/ForecastSlice'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
@@ -12,20 +12,90 @@ import Forecast from '../forecast/Forecast'
 
 function Weather () {
   const dispatch = useDispatch()
-
-  const weatherData = useSelector((state) => state.weather.weatherData)
-  const isLoading = useSelector((state) => state.weather.isLoading)
-  const error = useSelector((state) => state.weather.error)
+  const { weatherData, isLoading, error } = useSelector((state) => state.weather)
   const favorites = useSelector((state) => state.favorite.data)
+
+  const storedLatitude = localStorage.getItem('latitude')
+  const storedLongitude = localStorage.getItem('longitude')
+
+  const [latitude, setLatitude] = useState(storedLatitude ? parseFloat(storedLatitude) : null)
+  const [longitude, setLongitude] = useState(storedLongitude ? parseFloat(storedLongitude) : null)
+
+  const geolocationAPI = navigator.geolocation
+  // const getUserCoordinates = () => {
+  //   if (!geolocationAPI) {
+  //     setLatitude(null)
+  //     setLongitude(null)
+  //     localStorage.setItem('latitude', null)
+  //     localStorage.setItem('longitude', null)
+  //   } else {
+  //     geolocationAPI.getCurrentPosition((position) => {
+  //       const { coords } = position
+  //       setLatitude(coords.latitude)
+  //       setLongitude(coords.longitude)
+  //     }, (error) => {
+  //       console.log(error)
+  //     })
+  //   }
+  // }
+
+  const getUserCoordinates = () => {
+    if (!geolocationAPI) {
+      setLatitude(null)
+      setLongitude(null)
+      localStorage.removeItem('latitude') // Remove the stored latitude value
+      localStorage.removeItem('longitude') // Remove the stored longitude value
+    } else {
+      geolocationAPI.getCurrentPosition(
+        (position) => {
+          const { coords } = position
+          setLatitude(coords.latitude)
+          setLongitude(coords.longitude)
+          localStorage.setItem('latitude', coords.latitude.toString()) // Store the latitude value
+          localStorage.setItem('longitude', coords.longitude.toString()) // Store the longitude value
+        },
+        (error) => {
+          console.log(error)
+          setLatitude(null)
+          setLongitude(null)
+          localStorage.removeItem('latitude') // Remove the stored latitude value
+          localStorage.removeItem('longitude') // Remove the stored longitude value
+        }
+      )
+    }
+  }
 
   const isFavorite = weatherData ? favorites.includes(weatherData) : false
 
   const [showToast, setShowToast] = useState(false)
 
   useEffect(() => {
-    dispatch(fetchWeather('New York'))
-    dispatch(fetchForecast('New York'))
-  }, [dispatch])
+    getUserCoordinates()
+  }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (latitude && longitude) {
+          localStorage.setItem('latitude', latitude.toString())
+          localStorage.setItem('longitude', longitude.toString())
+          dispatch(fetchWeatherByCoordinates({ latitude, longitude }))
+          if (!weatherData?.name) {
+            dispatch(fetchForecast('New York'))
+          }
+          console.log('Weather data fetched for coordinates:', latitude, longitude)
+        } else {
+          console.log('Coordinates not available, fallback to default')
+          dispatch(fetchWeather('New York'))
+          dispatch(fetchForecast('New York'))
+        }
+      } catch (error) {
+        console.log('Error:', error)
+      }
+    }
+
+    fetchData()
+  }, [latitude, longitude, weatherData, dispatch])
 
   const handleClick = () => {
     if (weatherData) {

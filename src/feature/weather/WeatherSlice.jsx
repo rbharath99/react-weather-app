@@ -13,6 +13,18 @@ export const fetchWeather = createAsyncThunk('weather/fetchWeather', async (city
   return response.data
 })
 
+export const fetchWeatherByCoordinates = createAsyncThunk('weather/fetchWeatherByCoordinates', async ({ latitude, longitude }) => {
+  const response = await axios.get(BASE_URL, {
+    params: {
+      lat: latitude,
+      lon: longitude,
+      units: 'Metric',
+      lang: 'en'
+    }
+  })
+  return response.data
+})
+
 export const weatherSlice = createSlice({
   name: 'weather',
   initialState: {
@@ -31,6 +43,18 @@ export const weatherSlice = createSlice({
       state.weatherData = action.payload
     })
     builder.addCase(fetchWeather.rejected, (state, action) => {
+      state.loading = false
+      state.error = action.error.message
+    })
+    builder.addCase(fetchWeatherByCoordinates.pending, (state, action) => {
+      state.loading = true
+      state.error = null
+    })
+    builder.addCase(fetchWeatherByCoordinates.fulfilled, (state, action) => {
+      state.loading = false
+      state.weatherData = action.payload
+    })
+    builder.addCase(fetchWeatherByCoordinates.rejected, (state, action) => {
       state.loading = false
       state.error = action.error.message
     })
