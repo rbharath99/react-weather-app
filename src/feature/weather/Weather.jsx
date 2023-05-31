@@ -64,9 +64,6 @@ function Weather () {
           localStorage.setItem('latitude', latitude.toString())
           localStorage.setItem('longitude', longitude.toString())
           dispatch(fetchWeatherByCoordinates({ latitude, longitude }))
-          if (!weatherData?.name) {
-            dispatch(fetchForecast('New York'))
-          }
         } else {
           dispatch(fetchWeather('New York'))
           dispatch(fetchForecast('New York'))
@@ -78,6 +75,14 @@ function Weather () {
 
     fetchData()
   }, [latitude, longitude, dispatch])
+
+  useEffect(() => {
+    if (weatherData && weatherData.name) {
+      dispatch(fetchForecast(weatherData.name))
+    } else {
+      dispatch(fetchForecast('New York'))
+    }
+  }, [weatherData, dispatch])
 
   const handleClick = () => {
     if (weatherData) {
