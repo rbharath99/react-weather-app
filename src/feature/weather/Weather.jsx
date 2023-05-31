@@ -22,44 +22,28 @@ function Weather () {
   const [longitude, setLongitude] = useState(storedLongitude ? parseFloat(storedLongitude) : null)
 
   const geolocationAPI = navigator.geolocation
-  // const getUserCoordinates = () => {
-  //   if (!geolocationAPI) {
-  //     setLatitude(null)
-  //     setLongitude(null)
-  //     localStorage.setItem('latitude', null)
-  //     localStorage.setItem('longitude', null)
-  //   } else {
-  //     geolocationAPI.getCurrentPosition((position) => {
-  //       const { coords } = position
-  //       setLatitude(coords.latitude)
-  //       setLongitude(coords.longitude)
-  //     }, (error) => {
-  //       console.log(error)
-  //     })
-  //   }
-  // }
 
   const getUserCoordinates = () => {
     if (!geolocationAPI) {
       setLatitude(null)
       setLongitude(null)
-      localStorage.removeItem('latitude') // Remove the stored latitude value
-      localStorage.removeItem('longitude') // Remove the stored longitude value
+      localStorage.removeItem('latitude')
+      localStorage.removeItem('longitude')
     } else {
       geolocationAPI.getCurrentPosition(
         (position) => {
           const { coords } = position
           setLatitude(coords.latitude)
           setLongitude(coords.longitude)
-          localStorage.setItem('latitude', coords.latitude.toString()) // Store the latitude value
-          localStorage.setItem('longitude', coords.longitude.toString()) // Store the longitude value
+          localStorage.setItem('latitude', coords.latitude.toString())
+          localStorage.setItem('longitude', coords.longitude.toString())
         },
         (error) => {
           console.log(error)
           setLatitude(null)
           setLongitude(null)
-          localStorage.removeItem('latitude') // Remove the stored latitude value
-          localStorage.removeItem('longitude') // Remove the stored longitude value
+          localStorage.removeItem('latitude')
+          localStorage.removeItem('longitude')
         }
       )
     }
@@ -95,7 +79,7 @@ function Weather () {
     }
 
     fetchData()
-  }, [latitude, longitude, weatherData, dispatch])
+  }, [latitude, longitude, dispatch])
 
   const handleClick = () => {
     if (weatherData) {
