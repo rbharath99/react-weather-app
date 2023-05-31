@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchWeather, fetchWeatherByCoordinates } from './WeatherSlice'
+import { fetchWeatherByCoordinates } from './WeatherSlice'
 import { toggleFavorite } from './FavoriteSlice'
 import { fetchForecast } from '../forecast/ForecastSlice'
-import { getCurrentLocation } from '../location/LocationSlice'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
 import { Card, ListGroup, Button, Toast, Container } from 'react-bootstrap'
 import Graph from '../graph/Graph'
@@ -15,32 +14,34 @@ function Weather () {
   const dispatch = useDispatch()
   const { weatherData, isLoading, error } = useSelector((state) => state.weather)
   const favorites = useSelector((state) => state.favorite.data)
-  const { longitude, latitude } = useSelector((state) => state.location)
-
   const isFavorite = weatherData ? favorites.includes(weatherData) : false
-
   const [showToast, setShowToast] = useState(false)
 
   useEffect(() => {
-    dispatch(getCurrentLocation())
-  }, [dispatch])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (latitude && longitude) {
-          dispatch(fetchWeatherByCoordinates({ latitude, longitude }))
-        } else {
-          dispatch(fetchWeather('New York'))
-          dispatch(fetchForecast('New York'))
+    if (navigator?.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (location) => {
+          if (location) {
+            const { latitude, longitude } = location.coords
+            dispatch(fetchWeatherByCoordinates({ latitude, longitude }))
+          } else {
+            const fallbackCoordinates = {
+              latitude: 40.7128,
+              longitude: -74.0060
+            }
+            dispatch(fetchWeatherByCoordinates(fallbackCoordinates))
+          }
+        },
+        () => {
+          const fallbackCoordinates = {
+            latitude: 40.7128,
+            longitude: -74.0060
+          }
+          dispatch(fetchWeatherByCoordinates(fallbackCoordinates))
         }
-      } catch (error) {
-        console.log('Error:', error)
-      }
+      )
     }
-
-    fetchData()
-  }, [latitude, longitude, dispatch])
+  }, [])
 
   useEffect(() => {
     if (weatherData && weatherData.name) {
