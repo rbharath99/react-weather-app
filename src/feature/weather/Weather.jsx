@@ -18,6 +18,10 @@ function Weather () {
   const [showToast, setShowToast] = useState(false)
 
   useEffect(() => {
+    const fallbackCoordinates = {
+      latitude: 40.7128,
+      longitude: -74.0060
+    }
     if (navigator?.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (location) => {
@@ -25,18 +29,10 @@ function Weather () {
             const { latitude, longitude } = location.coords
             dispatch(fetchWeatherByCoordinates({ latitude, longitude }))
           } else {
-            const fallbackCoordinates = {
-              latitude: 40.7128,
-              longitude: -74.0060
-            }
             dispatch(fetchWeatherByCoordinates(fallbackCoordinates))
           }
         },
         () => {
-          const fallbackCoordinates = {
-            latitude: 40.7128,
-            longitude: -74.0060
-          }
           dispatch(fetchWeatherByCoordinates(fallbackCoordinates))
         }
       )
