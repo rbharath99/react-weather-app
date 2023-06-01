@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchWeatherByCoordinates } from './WeatherSlice'
 import { toggleFavorite } from './FavoriteSlice'
-import { fetchForecast } from '../forecast/ForecastSlice'
+import { fetchForecast, fetchHourlyForecast } from '../forecast/ForecastSlice'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
 import { Card, ListGroup, Button, Toast, Container } from 'react-bootstrap'
+import ToggleForecast from './ToggleForecast'
 import Graph from '../graph/Graph'
 import Loader from '../../Loader'
 import Search from './Search'
@@ -14,6 +15,8 @@ function Weather () {
   const dispatch = useDispatch()
   const { weatherData, isLoading, error } = useSelector((state) => state.weather)
   const favorites = useSelector((state) => state.favorite.data)
+  const isToggled = useSelector((state) => state.forecast.isToggled)
+  console.log(isToggled)
   const isFavorite = weatherData ? favorites.includes(weatherData) : false
   const [showToast, setShowToast] = useState(false)
 
@@ -41,11 +44,19 @@ function Weather () {
 
   useEffect(() => {
     if (weatherData && weatherData.name) {
-      dispatch(fetchForecast(weatherData.name))
+      if (isToggled) {
+        dispatch(fetchHourlyForecast(weatherData.name))
+      } else {
+        dispatch(fetchForecast(weatherData.name))
+      }
     } else {
-      dispatch(fetchForecast('New York'))
+      if (isToggled) {
+        dispatch(fetchHourlyForecast('New York'))
+      } else {
+        dispatch(fetchForecast('New York'))
+      }
     }
-  }, [weatherData, dispatch])
+  }, [weatherData, isToggled, dispatch])
 
   const handleClick = () => {
     if (weatherData) {
@@ -109,6 +120,7 @@ function Weather () {
         }}>
           <Toast.Body>{isFavorite ? 'Added to favorites!' : 'Removed from favorites!'}</Toast.Body>
         </Toast>
+        <ToggleForecast />
         <Graph />
         <Forecast />
       </Container>
