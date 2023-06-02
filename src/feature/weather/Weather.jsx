@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchWeather } from './WeatherSlice'
+import { fetchWeatherByCoordinates } from './WeatherSlice'
 import { toggleFavorite } from './FavoriteSlice'
 import { fetchForecast } from '../forecast/ForecastSlice'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
@@ -12,20 +12,40 @@ import Forecast from '../forecast/Forecast'
 
 function Weather () {
   const dispatch = useDispatch()
-
-  const weatherData = useSelector((state) => state.weather.weatherData)
-  const isLoading = useSelector((state) => state.weather.isLoading)
-  const error = useSelector((state) => state.weather.error)
+  const { weatherData, isLoading, error } = useSelector((state) => state.weather)
   const favorites = useSelector((state) => state.favorite.data)
-
   const isFavorite = weatherData ? favorites.includes(weatherData) : false
-
   const [showToast, setShowToast] = useState(false)
 
   useEffect(() => {
-    dispatch(fetchWeather('New York'))
-    dispatch(fetchForecast('New York'))
-  }, [dispatch])
+    const fallbackCoordinates = {
+      latitude: 40.7128,
+      longitude: -74.0060
+    }
+    if (navigator?.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (location) => {
+          if (location) {
+            const { latitude, longitude } = location.coords
+            dispatch(fetchWeatherByCoordinates({ latitude, longitude }))
+          } else {
+            dispatch(fetchWeatherByCoordinates(fallbackCoordinates))
+          }
+        },
+        () => {
+          dispatch(fetchWeatherByCoordinates(fallbackCoordinates))
+        }
+      )
+    }
+  }, [])
+
+  useEffect(() => {
+    if (weatherData && weatherData.name) {
+      dispatch(fetchForecast(weatherData.name))
+    } else {
+      dispatch(fetchForecast('New York'))
+    }
+  }, [weatherData, dispatch])
 
   const handleClick = () => {
     if (weatherData) {
