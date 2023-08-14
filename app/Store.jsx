@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import weatherReducer from '../src/feature/weather/WeatherSlice'
-import favoriteReducer from '../src/feature/weather/FavoriteSlice'
+import favoriteReducer from '../src/feature/favorites/FavoriteSlice'
 import forecastReducer from '../src/feature/forecast/ForecastSlice'
 import locationReducer from '../src/feature/location/LocationSlice'
 
