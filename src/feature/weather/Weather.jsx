@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchWeatherByCoordinates } from './WeatherSlice'
-import { toggleFavorite } from './FavoriteSlice'
+import { toggleFavorite } from '../favorites/FavoriteSlice'
 import { fetchForecast } from '../forecast/ForecastSlice'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
 import { Card, ListGroup, Button, Toast, Container } from 'react-bootstrap'
