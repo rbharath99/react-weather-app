@@ -1,8 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { FORECAST_BASE_URL } from '../weather/WeatherConstants'
+import { emptyForecast, Forecast } from '../../entities/Forecast';
 
-export const fetchForecast = createAsyncThunk('forecast/fetchForecast', async (city) => {
+interface ForecastState {
+  forecastData: Forecast;
+  loading: boolean;
+  error: string | undefined;
+}
+
+const initialState: ForecastState = {
+  forecastData: emptyForecast,
+  loading: false,
+  error: '',
+}
+
+export const fetchForecast = createAsyncThunk('forecast/fetchForecast', async (city: string) => {
   const response = await axios.get(FORECAST_BASE_URL, {
     params: {
       q: city,
@@ -16,16 +29,12 @@ export const fetchForecast = createAsyncThunk('forecast/fetchForecast', async (c
 
 export const forecastSlice = createSlice({
   name: 'forecast',
-  initialState: {
-    forecastData: null,
-    loading: false,
-    error: ''
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchForecast.pending, (state, action) => {
       state.loading = true
-      state.error = null
+      state.error = ''
     })
     builder.addCase(fetchForecast.fulfilled, (state, action) => {
       state.loading = false

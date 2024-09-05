@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchWeatherByCoordinates } from './WeatherSlice'
-import { toggleFavorite } from '../favorites/FavoriteSlice'
-import { fetchForecast } from '../forecast/ForecastSlice'
 import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
 import { Card, ListGroup, Button, Toast, Container } from 'react-bootstrap'
+import { AppDispatch, RootState } from '../../../app/Store';
 import Graph from '../graph/Graph'
 import Loader from '../../Loader'
 import Search from './Search'
 import Forecast from '../forecast/Forecast'
+import { toggleFavorite } from '../favorites/FavoriteSlice'
+import { fetchForecast } from '../forecast/ForecastSlice'
+import { fetchWeatherByCoordinates } from './WeatherSlice'
 
-function Weather () {
-  const dispatch = useDispatch()
-  const { weatherData, isLoading, error } = useSelector((state) => state.weather)
-  const favorites = useSelector((state) => state.favorite.data)
+function Weather() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { weatherData, loading, error } = useSelector((state: RootState) => state.weather)
+  const favorites = useSelector((state: RootState) => state.favorite.data)
   const isFavorite = weatherData ? favorites.includes(weatherData) : false
   const [showToast, setShowToast] = useState(false)
 
@@ -57,7 +58,7 @@ function Weather () {
     }, 3000)
   }
 
-  if (isLoading) {
+  if (loading) {
     <Loader />
   }
 

@@ -1,8 +1,26 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { BASE_URL } from './WeatherConstants'
+import { emptyWeather, Weather } from '../../entities/Weather';
 
-export const fetchWeather = createAsyncThunk('weather/fetchWeather', async (city) => {
+interface WeatherState {
+  weatherData: Weather;
+  loading: boolean;
+  error: string | undefined;
+}
+
+const initialState: WeatherState = {
+  weatherData: emptyWeather,
+  loading: false,
+  error: '',
+}
+
+export interface LocationProps {
+  latitude: number;
+  longitude: number;
+}
+
+export const fetchWeather = createAsyncThunk('weather/fetchWeather', async (city: string) => {
   const response = await axios.get(BASE_URL, {
     params: {
       q: city,
@@ -13,7 +31,7 @@ export const fetchWeather = createAsyncThunk('weather/fetchWeather', async (city
   return response.data
 })
 
-export const fetchWeatherByCoordinates = createAsyncThunk('weather/fetchWeatherByCoordinates', async ({ latitude, longitude }) => {
+export const fetchWeatherByCoordinates = createAsyncThunk('weather/fetchWeatherByCoordinates', async ({ latitude, longitude }: LocationProps) => {
   const response = await axios.get(BASE_URL, {
     params: {
       lat: latitude,
@@ -27,16 +45,12 @@ export const fetchWeatherByCoordinates = createAsyncThunk('weather/fetchWeatherB
 
 export const weatherSlice = createSlice({
   name: 'weather',
-  initialState: {
-    weatherData: null,
-    loading: false,
-    error: ''
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchWeather.pending, (state, action) => {
       state.loading = true
-      state.error = null
+      state.error = ''
     })
     builder.addCase(fetchWeather.fulfilled, (state, action) => {
       state.loading = false
@@ -48,7 +62,7 @@ export const weatherSlice = createSlice({
     })
     builder.addCase(fetchWeatherByCoordinates.pending, (state, action) => {
       state.loading = true
-      state.error = null
+      state.error = ''
     })
     builder.addCase(fetchWeatherByCoordinates.fulfilled, (state, action) => {
       state.loading = false

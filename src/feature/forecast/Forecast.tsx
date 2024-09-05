@@ -1,19 +1,19 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import ForecastCard from './ForecastCard'
 import { Row, Container } from 'react-bootstrap'
 import Loader from '../../Loader'
+import ForecastCard from './ForecastCard'
+import { RootState } from '../../../app/Store';
 
-function Forecast () {
-  const forecastData = useSelector((state) => state.forecast.forecastData)
-  const isLoading = useSelector((state) => state.forecast.isLoading)
+function Forecast() {
+    const { forecastData, loading } = useSelector((state: RootState) => state.forecast)
 
-  if (isLoading) {
+    if (loading) {
         <Loader />
-  }
+    }
 
-  if (forecastData) {
-    return (
+    if (forecastData) {
+        return (
             <Container>
                 <div className="d-flex flex-wrap justify-content-center">
                     {forecastData.list.map((forecast) => (
@@ -25,8 +25,8 @@ function Forecast () {
                     ))}
                 </div>
             </Container>
-    )
-  }
+        )
+    }
 }
 
 export default Forecast

@@ -1,9 +1,9 @@
-import React from 'react'
 import { useSelector } from 'react-redux'
 import { Container, Row, Col, Card } from 'react-bootstrap'
+import { RootState } from '../../../app/Store';
 
-function FavoriteWeather () {
-  const favorites = useSelector((state) => state.favorite.data)
+function FavoriteWeather() {
+  const favorites = useSelector((state: RootState) => state.favorite.data)
 
   return (
     <Container style={{ paddingTop: '20px' }}>

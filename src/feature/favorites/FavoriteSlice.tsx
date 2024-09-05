@@ -1,10 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+interface FavoritesState {
+  data: any[];
+}
+
+const initialState: FavoritesState = {
+  data: []
+}
+
 const favoriteSlice = createSlice({
   name: 'favorite',
-  initialState: {
-    data: []
-  },
+  initialState,
   reducers: {
     toggleFavorite: (state, action) => {
       const { data } = action.payload
